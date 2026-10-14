@@ -186,3 +186,6 @@ git push origin feature/add-date-filters
 ---
 
 **Happy Coding!** Work together to build an amazing air quality analysis dashboard!
+
+*** ## Missing Values
+The source dataset encodes missing sensor readings as `-200`. These values are converted to NaN during data cleaning (`clean_data` in `analysis.py`), so metrics and plots only use valid readings.
