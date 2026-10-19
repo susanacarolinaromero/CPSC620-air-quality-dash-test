@@ -144,5 +144,30 @@ def main():
     if corr_plot:
         st.pyplot(corr_plot)
 
+
+    # Average pollutant comparison
+    st.subheader("Average Pollutant Levels")
+
+    pollutant_cols = ['CO(GT)', 'NMHC(GT)', 'C6H6(GT)', 'NOx(GT)', 'NO2(GT)']
+    available_cols = [col for col in pollutant_cols if col in df.columns]
+
+    if available_cols:
+        # Mean ignores NaN, so the -200 values replaced in clean_data are excluded
+        averages = df[available_cols].mean().dropna().sort_values(ascending=False)
+
+        fig, ax = plt.subplots(figsize=(10, 5))
+        bars = ax.bar(averages.index, averages.values, color='#2E8B57')
+        ax.bar_label(bars, fmt='%.1f')
+        ax.set_xlabel("Pollutant")
+        ax.set_ylabel("Average value")
+        ax.set_title("Average Concentration by Pollutant")
+        ax.grid(axis='y', alpha=0.3)
+
+        st.pyplot(fig)
+        st.caption("Note: pollutants use different units (CO in mg/m³, NOx in ppb, "
+                   "others in µg/m³), so this is a simple comparison of average values.")
+    else:
+        st.warning("No pollutant data available for the bar chart")
+
 if __name__ == "__main__":
     main()
