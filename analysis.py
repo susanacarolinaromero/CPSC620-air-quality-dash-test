@@ -81,9 +81,9 @@ def clean_data(df):
             df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
              # Replace -200 values (missing data indicator) with NaN.
     # This must happen AFTER numeric conversion, because before that
-    # some columns are still strings like "-200" and won't match.
-    df_clean[numeric_columns] = df_clean[numeric_columns].replace(-200, np.nan)
-    
+    # Replace -200 values (missing data indicator) with NaN
+    df_clean = df_clean.replace(-200, np.nan)
+    df_clean = df_clean.replace(-200.00, np.nan)
     return df_clean
 
 
